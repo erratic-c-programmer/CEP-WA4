@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: initial;
+  background: #f6f8fa;  /* stolen from GitHub */
+}
+
+#toptitle {
+  text-align: center;
+  font-size: inherit;
+}
+
+.disclaimer {
+  font-style: italic;
+  font-size: 1.1em;
+  text-align: center;
+  margin: auto;
+}
+
+table {
+  width: 40%;
+}
+
+th {
+  background: lightblue;
+}
+
+td {
+  text-align: center;
+}
+
+table, th, td {
+  padding: 5px;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+#submissions {
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+}
+
+.nounderl {
+  text-decoration: none;
+}
+
+#submitbtn {
+  text-align: center;
+}
+/* Due to https://fdossena.com/?p=html5cool/buttons/i.frag */
+.button {
+  display: inline-block;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #FFFFFF;
+  margin: 0 0.7em 0.7em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  text-align: center;
+  background: #009688;  /* stolen from WhatsApp Web */
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+
+/**/
+
+
+.tabs {
+  text-align: center;
+  padding-bottom: 2em;
+}
+
+
+/**/
+
+
+.vl {
+  position: fixed;
+  border: 1px solid black;
+  top: 0;
+  left: 49vw;
+  width: 0;
+  height: 100vh;
+}
+
+.fishinterout {
+}
+
+#outdiv {
+  float: left;
+
+  width: calc(50vw - 4ch);
+  height: 100vh;
+  box-sizing: border-box;
+
+  padding-left: 2ch;
+  padding-right: 2ch;
+  margin: 0;
+}
+
+#out {
+  width: 100%;
+  height: 80%;
+
+  font-family: monospace;
+  font-size: 1.5em;
+  line-height: 1.1em;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+
+  padding: 0;
+  margin: 0;
+
+  overflow-x: wrap;
+  overflow-y: auto;
+}
+
+#debugdiv {
+  float: right;
+
+  width: calc(50vw - 4ch);
+  height: 100vh;
+  box-sizing: border-box;
+
+  padding-left: 2ch;
+  padding-right: 2ch;
+  margin: 0;
+}
+
+#debug {
+  width: 100%;
+  height: 80%;
+
+  font-family: monospace;
+  line-height: 0.3em;
+  white-space: pre;
+
+  padding: 0;
+  margin: 0;
+
+  overflow-x: auto;
+  overflow-y: auto;
+}

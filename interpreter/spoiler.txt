@@ -1,0 +1,151 @@
+THERE IS THIS CODE. (Javascript)
+
+let օ = null;
+export let о=(o,о,ο=o=>o.o===օ)=>(о=>о(о))(о=>օ=>ο(օ)?o(օ):о(о)(օ.o))(о);  // Y oh Y
+
+What???
+
+[
+
+(a,b,c)=>{...} means declare anonymous function that takes a, b and c as inputs
+and returns {...}.
+
+Anonymous functions can also be declared by simply leaving out the function name, like so:
+function (a, b, c)
+{
+    ...
+}
+
+]
+
+So renaming variables we get (sneaky unicode!):
+
+let _i=(o,i)=>(f=>f(f))(f=>c=>c.o===null?o(c):f(f)(c.o))(i);
+
+This is still pretty unreadable. At least there's fewer o's though XD
+
+Let's start by expanding out all the => lambda forms:
+
+let _i = function (o,i)
+{
+    return function (f)
+    {
+        return f(f);
+    }(function (f) {
+        return function (c) {
+            return c.o === null ? o(c) : f(f)(c.o)
+        })(i)
+}
+
+
+Much better... but still a big fat mess.
+
+How about giving the functions names?
+
+let _i = function (o,i)
+{
+    function fn1(f)
+    {
+        return f(f);
+    }
+
+    function fn2(f) {
+        function fn3(c) {
+            c.o === null ? o(c) : f(f)(c.o)
+        }
+        return fn3;
+    }
+
+    fn1(fn2)(i);
+}
+
+
+Much clearer!
+But observe. fn1 is merely applying fn2 to itself...
+So fn1(fn2) just evaluates to fn2(fn2)
+
+let _i = function (o,i)
+{
+    function fn2(f) {
+        function fn3(c) {
+            return c.o === null ? o(c) : f(f)(c.o)
+        }
+        return fn3;
+    }
+
+    return fn2(fn2)(i);
+}
+
+
+Let's expand out the argument f in fn2.
+We can replace every instance of "f" with "fn2" because
+we are calling fn2(fn2)
+
+let _i = function (o,i)
+{
+    function fn2(f) {
+        function fn3(c) {
+            return c.o === null ? o(c) : fn2(fn2)(c.o)
+        }
+        return fn3;
+    }
+
+    return fn2(fn2)(i);
+}
+
+
+Hey, would you look at that, the argument f is no longer needed!
+Let's do away with it...
+
+let _i = function (o,i)
+{
+    function fn2() {
+        function fn3(c) {
+            return c.o === null ? o(c) : fn2()(c.o)
+        }
+        return fn3;
+    }
+
+    return fn2()(i);
+}
+
+
+Wait, what is fn3 for again?
+Oh well, now we can just merge it up into fn2.
+Let's also rewrite that ugly ternary expression while we're at it:
+
+function _i(o,i)
+{
+    function fn2(c) {
+        if (c.o === null) {
+            return o(c);
+        } else {
+            return fn2(c.o);
+        }
+    }
+
+    return fn2(i);
+} 
+
+
+...oh.
+
+Y oh Y did I Y.
+
+*****
+
+(It makes more sense if I tell you that c is an object with a member o
+that represents a child; so:)
+
+function _i(o,i)
+{
+    function fn2(c) {
+        if (c.child === null) {
+            return o(c);
+        } else {
+            return fn2(c.child);
+        }
+    }
+
+    return fn2(i);
+}
