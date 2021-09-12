@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Submit code</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script>
+      function replaceit(x, noty)
+      {
+          x = document.getElementById(x);
+          noty = document.getElementById(noty);
+          noty.style.display = "none";
+          x.style.display = "initial";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="toptitle">
+      <h1>Submit your code here</h1>
+    </div>
+
+    <form action="/postsubmit" method="post" style="text-align: center;">
+      <label for="author">Author:</label>
+      <input type="text" id="author", name="author" required="required">
+      <label for="title">Title:</label>
+      <input type="text" id="title", name="title" required="required">
+      <label for="passwd">Password:</label>
+      <input type="password" id="passwd", name="passwd" required="required">
+
+      <br><br>
+
+      <!--  no time for this :(
+      <div class="tabs">
+        <button type="button" class="tablink" onclick="replaceit('textupload', 'file');">type it out </button>
+
+        <button type="button" class="tablink" onclick="replaceit('file', 'textupload');">upload a file</button>
+      </div>
+      -->
+
+      <div id="textupload">
+        <textarea rows="40" cols="100" id="codebox" name="codebox"></textarea>
+        <br>
+        <button type="submit">Submit!</button>
+        <a href="/">
+          <button type="button">Cancel</button>
+        </a>
+      </div>
+
+      <!--  ditto
+      <div id="file" style="display: none;">
+        <input type="file" id="cbfile" name="cbfile">
+        <button type="submit">Submit!</button>
+      </div>
+      -->
+    </form>
+
+  </body>
+</html>
