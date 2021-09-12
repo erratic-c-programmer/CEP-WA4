@@ -43,21 +43,21 @@
       });
     </script>
 
-    <h1>jsScheme - Scheme in JavaScript</h1>
+    <h1>Run {{subid}}</h1>
     <form name="f">
       <table border="0" cellspacing="0">
         <tr>
           <td valign="top">
             <table width="100%" border="0" cellspacing="0" cellpadding="3">
               <tr>
-                <td rowspan="6" colspan="2">
+                <td rowspan="3" colspan="2">
                   <textarea
                     id="txt"
                     cols="70"
                     rows="10"
                     onkeydown="key1(this)"
                     onkeyup="key2(this)"
-                    >{{code}}</textarea>
+                    >{{codepy}}</textarea>
                 </td>
               </tr>
               <tr>
@@ -84,20 +84,15 @@
                 <td width="5%">
                   <h3>Result:</h3>
                 </td>
-                <td colspan="2" align="center">
-                  <p id="time">&nbsp;</p>
-                  <!-- p>Click on '(' to change horizontal/vertical flow, on cell to edit it</p -->
-                </td>
-              </tr>
-              <tr>
                 <td colspan="3">
                   <table border="0" cellspacing="1" cellpadding="5">
                     <tr>
-                      <td id="out">&nbsp;</td>
+                      <td id="out" style="min-width: 10em;">&nbsp;</td>
                     </tr>
                   </table>
                 </td>
               </tr>
+
               <tr>
                 <td>
                   <h3>Log:</h3>
@@ -1539,7 +1534,6 @@
         var txt = document.getElementById("txt").value,
           o,
           res = null,
-          time0 = new Date();
         TopParser = new Parser(txt);
 
         while ((o = TopParser.getObject()) != null) {
@@ -1550,9 +1544,6 @@
             printLog("=> " + Str(o));
           if (o != null) res = o;
         }
-        var time1 = new Date();
-        document.getElementById("time").innerHTML =
-          "Elapsed: " + (time1 - time0) / 1000 + " s";
         showRes(res);
         showSymbols();
       }

@@ -14,7 +14,7 @@ app.secret_key = os.urandom(12)
 @app.route("/index")
 @app.route("/")
 def root():
-    subs_json_file = open(os.path.join("userdata", "PROT", "subs.json"), "r")  # {"subid": {"author":, "file":}}
+    subs_json_file = open(os.path.join("userdata", "PROT", "subs.json"), "r")  # {"subid": {"author":, "file":, "pwhash":}}
     ret = render_template("index.html.jinja", submissions=json.load(subs_json_file))
     subs_json_file.close()
     return ret
@@ -27,9 +27,7 @@ def getsub():
     subid = request.args.get("subid")
 
     with open(os.path.join("userdata", data[subid]["file"]), "r") as f:
-        code = []
-        for l in f:
-            code.append(list(l.rstrip()))
+        code = f.read()
 
         ret = render_template(
             "getsub.html.jinja",
@@ -45,28 +43,6 @@ def getsub():
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
     return render_template("submit.html.jinja")
-
-
-@app.route("/editsub", methods=["GET", "POST"])
-def editsub():
-    with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
-        curdata = json.loads(subsf.read())
-        with open(
-            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "r+"
-        ) as cbf:
-            return render_template(
-                "edit.html.jinja", subid=request.args.get("subid"), codebox=cbf.read()
-            )
-
-@app.route("/postedit", methods=["POST", "GET"])
-def postedit():
-    with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
-        curdata = json.loads(subsf.read())
-        with open(
-            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "w"
-        ) as cbf:
-            cbf.write(request.form["codebox"])
-    return redirect("/")
 
 
 @app.route("/postsubmit", methods=["POST"])
@@ -105,30 +81,72 @@ def postsubmit():
     return redirect("/")
 
 
-@app.route("/delsub", methods=["GET"])
-def delsub():
+@app.route("/editsub", methods=["GET", "POST"])
+def editsub():
     with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
         curdata = json.loads(subsf.read())
-        try:
-            os.remove(
-                os.path.join("userdata", curdata[request.args.get("subid")]["file"])
-            )  # remove the file...
-        except OSError:
-            #  for some reason the file did not exist... or maybe permissions messed up?
-            pass
+        with open(
+            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "r+"
+        ) as cbf:
+            return render_template(
+                "edit.html.jinja", subid=request.args.get("subid"), codebox=cbf.read()
+            )
 
-        uf = ul.userfile(
-            os.path.join("userdata", "PROT", "passwd"), os.path.join("userdata", "PROT", "shadow")
+
+@app.route("/auth", methods=["GET", "POST"])
+def auth():
+    return render_template(
+        "auth.html.jinja",
+        action=request.args.get("action"),
+        subid=request.args.get("subid"),
+        codebox=request.form.get("codebox"),
+    )
+
+@app.route("/postauth", methods=["GET", "POST"])
+def postauth():
+    uf = ul.userfile(
+        os.path.join("userdata", "PROT", "passwd"),
+        os.path.join("userdata", "PROT", "shadow")
+    )
+    if (not uf.check(request.args.get("subid"), request.form["passwd"])):
+        return (
+            """
+<link rel="stylesheet" href="static/css/style.css">
+<title>Authentication failure</title>
+<center><h1>Authentication failure</h1></center>
+<center><a class="button" href="/">Go back</a></center>
+            """
         )
-        uf.del_user(request.args.get("subid"))
+    if request.args.get("action") == "delete":
+        # Delete
+        with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
+            curdata = json.loads(subsf.read())
+            try:
+                os.remove(
+                    os.path.join("userdata", curdata[request.args.get("subid")]["file"])
+                )  # remove the file...
+            except OSError:
+                #  for some reason the file did not exist... or maybe permissions messed up?
+                pass
 
-        del curdata[request.args.get("subid")]  # remove that entry...
+            uf.del_user(request.args.get("subid"))
+            del curdata[request.args.get("subid")]  # remove that entry...
 
-        subsf.seek(0)
-        subsf.truncate()
-        subsf.write(json.dumps(curdata))  # and write the new one
+            subsf.seek(0)
+            subsf.truncate()
+            subsf.write(json.dumps(curdata))  # and write the new one
 
-    return redirect("/")
+        return redirect("/")
+
+    else:
+        # Edit
+        with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
+            curdata = json.loads(subsf.read())
+        with open(
+            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "w"
+        ) as cbf:
+            cbf.write(request.form["codebox"])
+        return redirect("/")
 
 
 app.run(host="0.0.0.0", port=8080, debug=True)
