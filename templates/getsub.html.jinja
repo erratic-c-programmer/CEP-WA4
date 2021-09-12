@@ -2,7 +2,14 @@
 <html>
   <head>
     <title>Run code</title>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+    ></script>
     <style type="text/css">
       TABLE {
         background: #a0a0a0;
@@ -28,6 +35,9 @@
     </script>
 
     <h1>Run {{subid}}</h1>
+    <div id="disclaimer">
+      <p>Please note: any changes here are temporary and will not be saved.</p>
+    </div>
     <form name="f">
       <table border="0" cellspacing="0">
         <tr>
@@ -41,7 +51,9 @@
                     rows="10"
                     onkeydown="key1(this)"
                     onkeyup="key2(this)"
-                    >{{codepy}}</textarea>
+                  >
+{{codepy}}</textarea
+                  >
                 </td>
               </tr>
               <tr>
@@ -71,7 +83,7 @@
                 <td colspan="3">
                   <table border="0" cellspacing="1" cellpadding="5">
                     <tr>
-                      <td id="out" style="min-width: 10em;">&nbsp;</td>
+                      <td id="out" style="min-width: 10em">&nbsp;</td>
                     </tr>
                   </table>
                 </td>
@@ -80,44 +92,50 @@
               <tr>
                 <td>
                   <h3>Log:</h3>
+                </td>
+
                 <td colspan="40" align="center">
                   <p id="time">&nbsp;</p>
                 </td>
-                </td>
-                <td align="center" colspan="2">
-                  <p>
-                    <input type="checkbox" id="echoInp" checked /><label
-                      for="echoInp" style="display:none;"
-                      >log input</label
-                    >
-                    &nbsp; <input type="checkbox" id="echoRes" checked /><label
-                      for="echoRes" style="display:none;"
-                      >log results</label
-                    >
-                    &nbsp; <input type="checkbox" id="jit" /><label for="jit"
-                      >Just-in-time compilation</label
-                    >
-                  </p>
+                <td colspan="0">
+                  <input
+                    type="checkbox"
+                    id="echoInp"
+                    style="display: none"
+                    checked
+                  />
+                  <input
+                    type="checkbox"
+                    id="echoRes"
+                    style="display: none"
+                    checked
+                  />
+                  <input
+                    type="checkbox"
+                    id="jit"
+                    style="display: none"
+                    checked
+                  />
                 </td>
               </tr>
-           <tr>
-             <td colspan="3" valign="top">
-               <textarea id="log" cols="90" rows="8"></textarea>
-               <iframe id="hf" style="display:none"></iframe>
-           </tr>
+              <tr>
+                <td colspan="3" valign="top">
+                  <textarea id="log" cols="90" rows="8"></textarea>
+                  <iframe id="hf" style="display: none"></iframe>
+                </td>
+              </tr>
             </table>
           </td>
-          <td valign="top">
+
+          <td valign="top" align="left" style="min-width:10em;">
             <h3>Symbols:</h3>
             <ul>
-              <li>
-                <a href="javascript:ShowEnv=TopEnv;showSymbols();"
-                  >work environment</a
-                >
+              <li style="text-align: left">
+                <a href="javascript:ShowEnv=TopEnv;showSymbols();">work env</a>
               </li>
-              <li>
+              <li style="text-align: left">
                 <a href="javascript:ShowEnv=TopEnv.parentEnv;showSymbols();"
-                  >core environment</a
+                  >core env</a
                 >
               </li>
             </ul>
@@ -1518,7 +1536,7 @@
         var txt = document.getElementById("txt").value,
           o,
           res = null,
-        TopParser = new Parser(txt);
+          TopParser = new Parser(txt);
 
         while ((o = TopParser.getObject()) != null) {
           if (document.getElementById("echoInp").checked) printLog(o.Str());
