@@ -21,22 +21,6 @@
         $("#evalButton").bind("click", function () {
           clickEval();
         });
-        $("#exampleButton").bind("click", function () {
-          $.get("example.scm", function (result) {
-            $("#txt").get(0).value = result;
-          });
-        });
-        $("#concurrencyButton").bind("click", function () {
-          $.get("concurrency.scm", function (result) {
-            $("#txt").get(0).value = result;
-          });
-        });
-        $("#libraryButton").bind("click", function () {
-          $("#txt").get(0).value = $("#lib").get(0).innerHTML;
-        });
-        $("#clearInputButton").bind("click", function () {
-          $("#txt").get(0).value = "";
-        });
         $("#clearLogButton").bind("click", function () {
           $("#log").get(0).value = "";
         });
@@ -103,11 +87,11 @@
                 <td align="center" colspan="2">
                   <p>
                     <input type="checkbox" id="echoInp" checked /><label
-                      for="echoInp"
+                      for="echoInp" style="display:none;"
                       >log input</label
                     >
                     &nbsp; <input type="checkbox" id="echoRes" checked /><label
-                      for="echoRes"
+                      for="echoRes" style="display:none;"
                       >log results</label
                     >
                     &nbsp; <input type="checkbox" id="jit" /><label for="jit"
