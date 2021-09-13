@@ -6,10 +6,23 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
     />
+
     <script
-      type="text/javascript"
       src="https://code.jquery.com/jquery-3.6.0.min.js"
     ></script>
+
+    <!-- Highlighting! -->
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='js/highlight/styles/default.min.css') }}"
+    />
+
+    <script
+      src="{{ url_for('static', filename='js/highlight/highlight.min.js') }}"
+    ></script>
+
+    <script> hljs.highlightAll(); </script>
+
     <style type="text/css">
       TABLE {
         background: #a0a0a0;
@@ -35,9 +48,6 @@
     </script>
 
     <h1>Run {{subid}}</h1>
-    <div id="disclaimer">
-      <p>Please note: any changes here are temporary and will not be saved.</p>
-    </div>
     <form name="f">
       <table border="0" cellspacing="0">
         <tr>
@@ -45,15 +55,11 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="3">
               <tr>
                 <td rowspan="3" colspan="2">
-                  <textarea
-                    id="txt"
-                    cols="70"
-                    rows="10"
-                    onkeydown="key1(this)"
-                    onkeyup="key2(this)"
-                  >
-{{codepy}}</textarea
-                  >
+                  <!-- This is cheating man -->
+                  <!-- prettier-disable -->
+                  <pre style="min-width:30em;"><code class="language-scheme">{{codepy}}</code></pre>
+                  <!-- prettier-disable -->
+                  <textarea style="display:none" id="txt">{{codepy}}</textarea>
                 </td>
               </tr>
               <tr>
