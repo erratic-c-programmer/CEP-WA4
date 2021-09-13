@@ -1,4 +1,6 @@
-<!-- Note: Almost all of this code is from https://bluishcoder.co.nz/jsscheme/, taken on 28 Aug 2021 -- Isaac -->
+<!-- Note: Almost all of this code is from https://bluishcoder.co.nz/jsscheme/,
+  taken on 28 Aug 2021. However most of the HTML was rewritten :D 
+  The "show symbols" feature was also removed. -- Isaac -->
 <html>
   <head>
     <title>Run code</title>
@@ -47,110 +49,59 @@
       });
     </script>
 
-    <h1>Run {{subid}}</h1>
+    <center><h1 style="font-family: monospace;">{{subid}}.scm</h1></center>
     <form name="f">
-      <table border="0" cellspacing="0">
-        <tr>
-          <td valign="top">
-            <table width="100%" border="0" cellspacing="0" cellpadding="3">
-              <tr>
-                <td rowspan="3" colspan="2">
-                  <!-- This is cheating man -->
-                  <!-- prettier-disable -->
-                  <pre style="min-width:30em;"><code class="language-scheme">{{codepy}}</code></pre>
-                  <!-- prettier-disable -->
-                  <textarea style="display:none" id="txt">{{codepy}}</textarea>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    id="evalButton"
-                    type="button"
-                    class="button"
-                    value="eval"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <input
-                    id="clearLogButton"
-                    type="button"
-                    class="button"
-                    value="clear log"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td width="5%">
-                  <h3>Result:</h3>
-                </td>
-                <td colspan="3">
-                  <table border="0" cellspacing="1" cellpadding="5">
-                    <tr>
-                      <td id="out" style="min-width: 10em">&nbsp;</td>
-                    </tr>
-                  </table>
-                </td>
-              </tr>
+      <div id="getsubgrid">
 
-              <tr>
-                <td>
-                  <h3>Log:</h3>
-                </td>
+        <div id="getsubcode">
+          <!-- This is cheating man -->
+          <pre style="min-width:80em;">
+                <!-- prettier-disable -->
+                <code class="language-scheme">{{codepy}}</code>
+          </pre>
+          <!-- prettier-disable -->
+          <textarea style="display:none" id="txt">{{codepy}}</textarea>
+        </div>
 
-                <td colspan="40" align="center">
-                  <p id="time">&nbsp;</p>
-                </td>
-                <td colspan="0">
-                  <input
-                    type="checkbox"
-                    id="echoInp"
-                    style="display: none"
-                    checked
-                  />
-                  <input
-                    type="checkbox"
-                    id="echoRes"
-                    style="display: none"
-                    checked
-                  />
-                  <input
-                    type="checkbox"
-                    id="jit"
-                    style="display: none"
-                    checked
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3" valign="top">
-                  <textarea id="log" cols="90" rows="8"></textarea>
-                  <iframe id="hf" style="display: none"></iframe>
-                </td>
-              </tr>
-            </table>
-          </td>
+        <div id="getsubbuts">
+          <p style="margin: auto;">
+          <input
+             id="evalButton"
+             type="button"
+             class="button"
+             value="eval"
+             />
+          <input
+             id="clearLogButton"
+             type="button"
+             class="button"
+             value="clear log"
+             />
+          </p>
+        </div>
 
-          <td valign="top" align="left" style="min-width:10em;">
-            <h3>Symbols:</h3>
-            <ul>
-              <li style="text-align: left">
-                <a href="javascript:ShowEnv=TopEnv;showSymbols();">work env</a>
-              </li>
-              <li style="text-align: left">
-                <a href="javascript:ShowEnv=TopEnv.parentEnv;showSymbols();"
-                  >core env</a
-                >
-              </li>
-            </ul>
-            <table border="0" id="symbols" cellspacing="1" cellpadding="2">
-              <tbody></tbody>
-            </table>
-          </td>
-        </tr>
-      </table>
+        <div id="getsubresh">
+          <p>Result:</p>
+        </div>
+
+        <div id="getsubresr">
+          <p id="out">&nbsp;</p>
+        </div>
+
+        <div id="getsublogh">
+          <p>Log:</p>
+        </div>
+
+        <div id="getsublogr">
+          <textarea id="log" cols="90" rows="8" readonly=true></textarea>
+        </div>
+
+      </div>
+
+      <!-- always enabled... -->
+      <input type="checkbox" id="echoInp" style="display: none" checked/>
+      <input type="checkbox" id="echoRes" style="display: none" checked/>
+      <input type="checkbox" id="jit" style="display: none" checked/>
     </form>
 
     <!-- Scheme interpreter -->
