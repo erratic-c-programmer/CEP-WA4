@@ -1,0 +1,55 @@
+{% extends "template.html" %}
+{% block content %}
+<div class="container">
+
+  {% if current_user.is_authenticated %}
+    <h3>Hi {{ current_user.username }}!</h3>
+  {% endif %}
+
+  <br><i>Life motto: "{{current_user.profile.lifemoto}}"</i>
+  <h2>List of tasks</h2>
+
+  <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Post Name</th>
+      <th scope="col">Content</th>
+      <th scope="col">Date</th>
+      <th scope="col">Completed</th>
+      <th scope="col">User ID</th>
+      <th scope="col">Tags</th>
+      <th scope="col">Operation</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for task in tasks%}
+    <tr>
+      <th scope="row">{{loop.index}}</th>
+      <td>{{task.name}}</td>
+      <td>{{task.description}}</td>
+      <td>{{task.tdate}}</td>
+      <td>{{task.completed}}</td>
+      <td>{{task.user_id}}</td>
+      <td>{% for tag in task.tags %}
+            {% if loop.index != loop.length %}
+              {{tag.name}}, 
+            {% else %}
+              {{tag.name}}
+            {% endif %}
+          {% endfor %}
+      </td>
+      <td><a href="/update/{{task.id}}">Update</a> / <a href="/delete/{{task.id}}">Delete</a></td>
+      
+    </tr>
+    {% endfor %}
+    
+  
+  </tbody>
+</table>
+  <form action="{{url_for("wtform")}}">
+  <input type="Submit" value="Add a new Item" class="btn btn-primary" >
+  </form>
+
+</div>
+{% endblock %}
