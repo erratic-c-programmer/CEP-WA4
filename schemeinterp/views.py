@@ -1,9 +1,9 @@
-from simpleapp import app, db
+from schemeinterp import app, db
 from datetime import datetime
 from flask import render_template, request, flash, url_for, redirect
 
-from simpleapp.forms import TaskForm, LoginForm, CreateAccount
-from simpleapp.models import User, Post, Profile, Tag
+from schemeinterp.forms import TaskForm, LoginForm, CreateAccount
+from schemeinterp.models import User, Post, Profile, Tag
 
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.urls import url_parse

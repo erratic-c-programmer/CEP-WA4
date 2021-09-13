@@ -164,7 +164,7 @@ login.login_view = "login"
 login.login_message = "You will need to login before accesing this top secret material!"
 login.login_message_category = "danger"
 
-from simpleapp import views, models
+from schemeinterp import views, models
 
 
 @app.cli.command("initdb")

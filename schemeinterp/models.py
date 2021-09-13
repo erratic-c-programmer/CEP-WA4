@@ -1,7 +1,7 @@
-from simpleapp import db
+from schemeinterp import db
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
-from simpleapp import login
+from schemeinterp import login
 
 from flask_login import UserMixin
 

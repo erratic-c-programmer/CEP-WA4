@@ -1,4 +1,4 @@
-~/demologin$ sqlite3 simpleapp/app.db 
+~/demologin$ sqlite3 schemeinterp/app.db 
 SQLite version 3.22.0 2018-01-22 18:45:57
 Enter ".help" for usage hints.
 sqlite> .tables
@@ -14,8 +14,8 @@ https://flask-sqlalchemy.palletsprojects.com/en/2.x/quickstart/
 Python 3.8.10 (default, May  5 2021, 03:01:07) 
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from simpleapp import db
->>> from simpleapp.models import User
+>>> from schemeinterp import db
+>>> from schemeinterp.models import User
 >>> admin = User(username="admin", email="admin@example.com")
 >>> guest = User(username="guest", email="guest@example.com")
 >>> guest.set_password("secretpassword")
@@ -34,7 +34,7 @@ False
 >>> exit()
 
 
-~/demologin$ sqlite3 simpleapp/app.db 
+~/demologin$ sqlite3 schemeinterp/app.db 
 SQLite version 3.22.0 2018-01-22 18:45:57
 Enter ".help" for usage hints.
 sqlite> select * from user
@@ -47,6 +47,6 @@ sqlite> select * from user
 Python 3.8.10 (default, May  5 2021, 03:01:07) 
 [GCC 7.5.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
->>> from simpleapp.models import insert_dummy_data
+>>> from schemeinterp.models import insert_dummy_data
 >>> insert_dummy_data()
 >>> exit()

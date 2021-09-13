@@ -22,11 +22,6 @@ class TaskForm(FlaskForm):
         if today > field.data:  # if the date is in the past
             raise ValidationError("You must not enter a date in the past")
 
-    """This is added after the last video - Video 10 - to show how you can return more than one error when doing multiple validations on a single field
-  
-  Here we are making it illegal for user to input a task name that is less than 3 characters and the task name should also not contain any punctuations!
-   """
-
     def validate_name(form, field):
         validated = True  # default state of validation
         if len(field.data) < 3:
