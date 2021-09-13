@@ -9,8 +9,8 @@ import string
 
 
 class TaskForm(FlaskForm):
-    name = StringField("Task Name", validators=[InputRequired()])
-    description = TextAreaField("Task Description")
+    name = StringField("Title", validators=[InputRequired()])
+    description = TextAreaField("Content")
     # add new field to render - tags
     tags = StringField("Tag (delimit each tag by comma)")
 
@@ -18,7 +18,7 @@ class TaskForm(FlaskForm):
         validated = True  # default state of validation
         if len(field.data) < 3:
             form.name.errors.append(
-                "Length of Task Name must be more than 3 characters!"
+                "Length of title must be more than 3 characters!"
             )
             validated = False
 
