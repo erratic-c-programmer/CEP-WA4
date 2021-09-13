@@ -1,0 +1,45 @@
+{% extends "template.html" %}
+{% block content %}
+<div class="container">
+
+  {% if current_user.is_authenticated %}
+    <h3>Hi {{ current_user.username }}!</h3>
+  {% endif %}
+
+  <h3>{{post.name}}</h3>
+
+  <table>
+    <tr>
+      <th>Date posted: {{post.tdate}}</th>
+    </tr>
+    <tr>
+      <th>Author: {{username}}</th>
+    </tr>
+    <tr>
+      <th>Tags: 
+         {% for tag in post.tags %}
+         {{tag.name}}
+         {% endfor %}
+      </th>
+    </tr>
+  </table>
+  <p>{{post.description}}</p>
+  
+  {% for reply in range(post.replies|length) %}
+    <table>
+      <tr>
+        <th>{{reply + 1}}</th>
+      </tr>
+      <tr>
+        <th>{{user_replies[reply]}}</th>
+      </tr>
+      <tr>
+        <td>{{post.replies[reply].reply_content}}</td>
+      </tr>
+  {% endfor %}
+
+  <form action="/replyform/{{post.id}}">
+  <input type="Submit" value="Add a new reply" class="btn btn-primary" >
+  </form>
+
+{% endblock %}

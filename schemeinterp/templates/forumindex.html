@@ -1,20 +1,13 @@
 {% extends "template.html" %}
 
-{% block title %}
-Welcome to our Scheme Interpreter! 
-{% endblock %}
-
-{% block heading %}
-<h1>Budget Daily</h1>
-{% endblock %}
-
-{% block body %}
-<tr>
-<a href="login">
-    <th><button> Log in </button><th>
-</a>
-<a href="signup">
-  <th><button> Create account </button></th>
-</a>
-</th>
+{% block content %}
+<div class="container">
+  <h1>Welcome to our Scheme Interpreter!</h1>
+  <a href="login">
+    <td><button> Log in </button><td>
+  </a>
+  <a href="signup">
+    <td><button> Create account </button></td>
+  </a>
+</div>
 {% endblock %}

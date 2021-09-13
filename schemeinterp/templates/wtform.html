@@ -19,8 +19,6 @@
     {{ form.csrf_token }}
     {{ form.name.label }}<br> {{ form.name(class="form-control") }} <br>
     {{ form.description.label }}<br> {{ form.description(rows="4", cols="100",class="form-control") }}<br>
-    {{ form.tdate.label }}<br> {{ form.tdate(class="form-control") }} <br>
-    {{ form.completed()}} {{ form.completed.label }} <br>
     {{ form.tags.label}} <br> {{form.tags(class="form-control")}}<br>
     <input type="submit" value="Save Task" class="btn btn-primary">
 </form>

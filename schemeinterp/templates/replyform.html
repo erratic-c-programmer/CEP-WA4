@@ -12,13 +12,13 @@
 
 {% block content %}
 <div class="container">
-  <h2>Create account</h2>
+  {% if current_user %}
+    <h2>Hello {{current_user.username}}!</h2>
+  {% endif %}
   <form method="POST">
-    {{ account.csrf_token }}
-    {{ account.username.label }}<br> {{ account.username(class="form-control") }} <br>
-    {{ account.password.label }}<br> {{ account.password(class="form-control") }}<br>
-    {{ account.email.label }}<br> {{ account.email(class="form-control") }}<br>
-    <input type="submit" value="Save Account" class="btn btn-primary">
+    {{ reply.csrf_token }}
+    {{ reply.reply_content.label }}<br> {{ reply.reply_content(class="form-control") }} <br>
+    <input type="submit" value="Save Reply" class="btn btn-primary">
 </form>
 </div>
 {% endblock %}

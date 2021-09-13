@@ -6,32 +6,26 @@
     <h3>Hi {{ current_user.username }}!</h3>
   {% endif %}
 
-  <br><i>Life motto: "{{current_user.profile.lifemoto}}"</i>
-  <h2>List of tasks</h2>
 
   <table class="table">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Post Name</th>
-      <th scope="col">Content</th>
+      <th scope="col">Author</th>
       <th scope="col">Date</th>
-      <th scope="col">Completed</th>
-      <th scope="col">User ID</th>
       <th scope="col">Tags</th>
-      <th scope="col">Operation</th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    {% for task in tasks%}
+    {% for task in range(tasks|length) %}
     <tr>
       <th scope="row">{{loop.index}}</th>
-      <td>{{task.name}}</td>
-      <td>{{task.description}}</td>
-      <td>{{task.tdate}}</td>
-      <td>{{task.completed}}</td>
-      <td>{{task.user_id}}</td>
-      <td>{% for tag in task.tags %}
+      <td>{{tasks[task].name}}</td>
+      <td>{{users[task]}}</td>
+      <td>{{tasks[task].tdate}}</td>
+      <td>{% for tag in tasks[task].tags %}
             {% if loop.index != loop.length %}
               {{tag.name}}, 
             {% else %}
@@ -39,7 +33,7 @@
             {% endif %}
           {% endfor %}
       </td>
-      <td><a href="/update/{{task.id}}">Update</a> / <a href="/delete/{{task.id}}">Delete</a></td>
+      <td><a href="/postpage/{{tasks[task].id}}">Go to post</a></td>
       
     </tr>
     {% endfor %}
@@ -48,7 +42,7 @@
   </tbody>
 </table>
   <form action="{{url_for("wtform")}}">
-  <input type="Submit" value="Add a new Item" class="btn btn-primary" >
+  <input type="Submit" value="Add a new post" class="btn btn-primary" >
   </form>
 
 </div>

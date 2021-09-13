@@ -19,13 +19,14 @@
 
     <div>
       Welcome to the app:
-      <a href="/index">Home</a>  
-      <a href="/interpreter">Interpreter</a>
-      {% if current_user.is_anonymous %}
+      <a href="/mainpage">Home</a>  
+      <a href="/signup">Create New Account</a>
+    {% if current_user.is_anonymous %}
       <a href="{{ url_for('login') }}">Login</a>
     {% else %}
       <a href="{{ url_for('logout') }}">Logout</a>
     {% endif %}
+      
   
     </div>
 
