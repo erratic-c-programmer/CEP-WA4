@@ -76,9 +76,7 @@ class userfile:  # why is this a class... gonna have to rewrite this someday
             sfile.seek(0)
             x = sfile.read()
             sfile.seek(0)
-            sfile.write(
-                x[: (storedas - 1) * 128] + x[storedas * 128 :]
-            )
+            sfile.write(x[: (storedas - 1) * 128] + x[storedas * 128 :])
 
     def check(self, username, passwd):
         # Sanity

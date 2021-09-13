@@ -13,10 +13,13 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 Bootstrap(app)
 
+
 @app.route("/index")
 @app.route("/")
 def root():
-    subs_json_file = open(os.path.join("userdata", "PROT", "subs.json"), "r")  # {"subid": {"author":, "file":, "pwhash":}}
+    subs_json_file = open(
+        os.path.join("userdata", "PROT", "subs.json"), "r"
+    )  # {"subid": {"author":, "file":, "pwhash":}}
     ret = render_template("index.html.jinja", submissions=json.load(subs_json_file))
     subs_json_file.close()
     return ret
@@ -72,7 +75,8 @@ def postsubmit():
             subsf.write(json.dumps(curdata))
 
             uf = ul.userfile(
-                os.path.join("userdata", "PROT", "passwd"), os.path.join("userdata", "PROT", "shadow")
+                os.path.join("userdata", "PROT", "passwd"),
+                os.path.join("userdata", "PROT", "shadow"),
             )
 
             uf.add_user(mtitle, request.form["passwd"])
@@ -104,21 +108,20 @@ def auth():
         codebox=request.form.get("codebox"),
     )
 
+
 @app.route("/postauth", methods=["GET", "POST"])
 def postauth():
     uf = ul.userfile(
         os.path.join("userdata", "PROT", "passwd"),
-        os.path.join("userdata", "PROT", "shadow")
+        os.path.join("userdata", "PROT", "shadow"),
     )
-    if (not uf.check(request.args.get("subid"), request.form["passwd"])):
-        return (
-            """
+    if not uf.check(request.args.get("subid"), request.form["passwd"]):
+        return """
 <link rel="stylesheet" href="static/css/style.css">
 <title>Authentication failure</title>
 <center><h1>Authentication failure</h1></center>
 <center><a class="button" href="/">Go back</a></center>
             """
-        )
     if request.args.get("action") == "delete":
         # Delete
         with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
@@ -150,9 +153,10 @@ def postauth():
             cbf.write(request.form["codebox"])
         return redirect("/")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///app.db"
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///app.db"
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ECHO"] = True
 db = SQLAlchemy(app)
 
 login = LoginManager(app)
@@ -162,10 +166,11 @@ login.login_message_category = "danger"
 
 from simpleapp import views, models
 
+
 @app.cli.command("initdb")
 def reset_db():
-  ''' Reset the database with dummy data '''
-  db.drop_all()
+    """Reset the database with dummy data"""
+    db.drop_all()
 
-  db.create_all()
-  models.insert_dummy_data(db)
+    db.create_all()
+    models.insert_dummy_data(db)
