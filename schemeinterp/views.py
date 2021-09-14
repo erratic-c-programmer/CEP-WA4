@@ -92,6 +92,14 @@ def postsubmit():
         f.close()
 
     except OSError:  # ...no overwriting other submissions, sorry mate
+        return (
+                """
+                <link rel="stylesheet" href="static/css/style.css">
+                <title>Error!</title>
+                <center><h1>There already exists a project with the same name... rename this one maybe?</h1></center>
+                <center><a class="button" href="javascript:history.go(-1)">Go back</a></center>
+                """
+        )
         pass
 
     return redirect("/")
