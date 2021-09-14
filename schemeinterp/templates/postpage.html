@@ -26,16 +26,8 @@
   <p>{{post.description}}</p>
   
   {% for reply in range(post.replies|length) %}
-    <table>
-      <tr>
-        <th>{{reply + 1}}</th>
-      </tr>
-      <tr>
-        <th>{{user_replies[reply]}}</th>
-      </tr>
-      <tr>
-        <td>{{post.replies[reply].reply_content}}</td>
-      </tr>
+  <b>{{user_replies[reply]}}:</b> {{post.replies[reply].reply_content}}
+  <br>
   {% endfor %}
 
   <form action="/replyform/{{post.id}}">

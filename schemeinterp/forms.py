@@ -28,7 +28,7 @@ class TaskForm(FlaskForm):
 
 # class to create reply
 class ReplyForm(FlaskForm):
-    reply_content = StringField("Reply Name", validators=[InputRequired()])
+    reply_content = StringField("Reply contents:", validators=[InputRequired()])
 
     def validate_reply(form, field):
         validated = True  # default state of validation
