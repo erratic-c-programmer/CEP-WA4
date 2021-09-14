@@ -10420,6 +10420,8 @@ BINARY_NUMBER_MODE	schemeinterp/static/js/highlight/highlight.js	/^    const BIN
 C	schemeinterp/static/js/highlight/highlight.min.js	/^;i[n[0]]=[e,C(n[0],n[1])]}))}}function C(e,t){$/;"	f
 COMMENT	schemeinterp/static/js/highlight/highlight.js	/^    const COMMENT = function(begin, end, modeOptions = {}) {$/;"	f	function:hljs
 C_NUMBER_MODE	schemeinterp/static/js/highlight/highlight.js	/^    const C_NUMBER_MODE = {$/;"	c	class:hljs
+Coord	altclass_examples.py	/^Coord = lambda a, b, c, d: fcmerge(Coord, Pair(a, b), Coord_ext, (c, d))  # extend$/;"	f
+Coord_ext	altclass_examples.py	/^def Coord_ext(_base, c, hoho):$/;"	f
 Create account	schemeinterp/templates/signup.html	/^  <h2>Create account<\/h2>$/;"	i
 CreateAccount	schemeinterp/forms.py	/^class CreateAccount(FlaskForm):$/;"	c
 Digests	schemeinterp/static/js/highlight/DIGESTS.md	/^### Digests$/;"	S	section:Subresource Integrity
@@ -10448,6 +10450,7 @@ NUMBER_MODE	schemeinterp/static/js/highlight/highlight.js	/^    const NUMBER_MOD
 P	schemeinterp/static/js/highlight/highlight.min.js	/^;function P(e,t,n="keyword"){const i=Object.create(null)$/;"	f	function:hljs
 PHRASAL_WORDS_MODE	schemeinterp/static/js/highlight/highlight.js	/^    const PHRASAL_WORDS_MODE = {$/;"	c	class:hljs
 PLAINTEXT_LANGUAGE	schemeinterp/static/js/highlight/highlight.js	/^      const PLAINTEXT_LANGUAGE = { disableAutodetect: true, name: 'Plain text', contains: [] };$/;"	c	class:hljs.HLJS
+Pair	altclass_examples.py	/^def Pair(a, b):$/;"	f
 Post	schemeinterp/models.py	/^class Post(db.Model):$/;"	c
 Q	schemeinterp/static/js/highlight/highlight.min.js	/^})({}),Y=Object.freeze({__proto__:null});const Q=J$/;"	C
 QUOTE_STRING_MODE	schemeinterp/static/js/highlight/highlight.js	/^    const QUOTE_STRING_MODE = {$/;"	c	class:hljs
@@ -10480,6 +10483,7 @@ _collapse	schemeinterp/static/js/highlight/highlight.js	/^      static _collapse
 _collapse	schemeinterp/static/js/highlight/highlight.min.js	/^t.children.forEach((t=>this._walk(e,t))),e.closeNode(t)),e}static _collapse(e){$/;"	m	class:hljs.l
 _emitter	schemeinterp/static/js/highlight/highlight.js	/^          _emitter: new options.__emitter(options)$/;"	p	class:hljs.HLJS.justTextHighlightResult.result
 _highlight	schemeinterp/static/js/highlight/highlight.js	/^      function _highlight(languageName, codeToHighlight, ignoreIllegals, continuation) {$/;"	f	function:hljs.HLJS
+_hoho	altclass_examples.py	/^    def _hoho():$/;"	f	function:Coord_ext	file:
 _rewriteBackreferences	schemeinterp/static/js/highlight/highlight.js	/^    function _rewriteBackreferences(regexps, { joinWith }) {$/;"	f	function:hljs
 _top	schemeinterp/static/js/highlight/highlight.js	/^          _top: PLAINTEXT_LANGUAGE,$/;"	p	class:hljs.HLJS.justTextHighlightResult.result
 _walk	schemeinterp/static/js/highlight/highlight.js	/^      static _walk(builder, node) {$/;"	m	class:hljs.TokenTree
@@ -10509,7 +10513,7 @@ addText	schemeinterp/static/js/highlight/highlight.min.js	/^addText(e){""!==e&&t
 addText	schemeinterp/static/js/highlight/highlight.min.js	/^this.buffer="",this.classPrefix=t.classPrefix,e.walk(this)}addText(e){$/;"	m	class:hljs.a
 add_user	userlib.py	/^    def add_user(username, passwd):$/;"	f	function:UserFile	file:
 app	schemeinterp/__init__.py	/^app = Flask(__name__)$/;"	v
-auth	schemeinterp/__init__.py	/^def auth():$/;"	f
+auth	schemeinterp/views.py	/^def auth():$/;"	f
 author	schemeinterp/static/js/highlight/package.json	/^   "author": {$/;"	o
 author	userdata/PROT/subs.json	/^{"tuxxi": {"author": "Tux", "file": "tuxxi"}}/;"	s	object:tuxxi
 autoDetection	schemeinterp/static/js/highlight/highlight.js	/^      function autoDetection(name) {$/;"	f	function:hljs.HLJS
@@ -10899,7 +10903,7 @@ e	schemeinterp/static/js/highlight/languages/vbnet.min.js	/^hljs.registerLanguag
 e	schemeinterp/static/js/highlight/languages/vbscript.min.js	/^hljs.registerLanguage("vbscript",(()=>{"use strict";function e(e){$/;"	f
 e	schemeinterp/static/js/highlight/languages/wren.min.js	/^hljs.registerLanguage("wren",(()=>{"use strict";function e(e){$/;"	f
 e	schemeinterp/static/js/highlight/languages/xml.min.js	/^hljs.registerLanguage("xml",(()=>{"use strict";function e(e){$/;"	f
-editsub	schemeinterp/__init__.py	/^def editsub():$/;"	f
+editsub	schemeinterp/views.py	/^def editsub():$/;"	f
 either	schemeinterp/static/js/highlight/highlight.js	/^    function either(...args) {$/;"	f	function:hljs
 email	schemeinterp/forms.py	/^    email = EmailField("Email", validators=[InputRequired()])$/;"	v	class:CreateAccount
 email	schemeinterp/models.py	/^    email = db.Column(db.String(120), index=True, unique=True)$/;"	v	class:User
@@ -10932,15 +10936,16 @@ file	userdata/PROT/subs.json	/^{"tuxxi": {"author": "Tux", "file": "tuxxi"}}/;"	
 finalize	schemeinterp/static/js/highlight/highlight.js	/^      finalize() {$/;"	m	class:hljs.TokenTreeEmitter
 finalize	schemeinterp/static/js/highlight/highlight.min.js	/^return new a(this,this.options).value()}finalize(){return!0}}function g(e){$/;"	m	class:hljs.c
 fire	schemeinterp/static/js/highlight/highlight.js	/^      function fire(event, args) {$/;"	f	function:hljs.HLJS
-forum	schemeinterp/__init__.py	/^def forum():$/;"	f
+forum	schemeinterp/views.py	/^def forum():$/;"	f
 g	schemeinterp/static/js/highlight/highlight.min.js	/^return new a(this,this.options).value()}finalize(){return!0}}function g(e){$/;"	f	function:hljs
 g	schemeinterp/static/js/highlight/languages/typescript.min.js	/^},m=function(b){const d=e,g={begin:\/<[A-Za-z0-9\\\\._:-]+\/,$/;"	c	class:AnonymousFunction3f69dfff0100
-gendispatch	altclass.py	/^def gendispatch(parent, parentlocals, *, no_gen_getters=False):$/;"	f
+gen_unique_id	altclass_examples.py	/^    def gen_unique_id():$/;"	f	function:Coord_ext	file:
+gendispatch	altclass.py	/^def gendispatch(parent, parentlocals, *, no_gen_getters=False, no_privates=False):$/;"	f
 getLanguage	schemeinterp/static/js/highlight/highlight.js	/^      function getLanguage(name) {$/;"	f	function:hljs.HLJS
 getMatcher	schemeinterp/static/js/highlight/highlight.js	/^        getMatcher(index) {$/;"	m	class:hljs.compileLanguage.ResumableMultiRegex
 getMatcher	schemeinterp/static/js/highlight/highlight.min.js	/^this.count=0,this.lastIndex=0,this.regexIndex=0}getMatcher(e){$/;"	m	class:G.i
 get_salt	userlib.py	/^def get_salt():$/;"	f
-getsub	schemeinterp/__init__.py	/^def getsub():$/;"	f
+getsub	schemeinterp/views.py	/^def getsub():$/;"	f
 glob	schemeinterp/static/js/highlight/package.json	/^      "glob": "^7.1.7",$/;"	s	object:devDependencies
 glob-promise	schemeinterp/static/js/highlight/package.json	/^      "glob-promise": "^4.0.1",$/;"	s	object:devDependencies
 h	schemeinterp/static/js/highlight/highlight.min.js	/^})(e).capture?"":"?:")+e.map((e=>g(e))).join("|")+")"}function h(e){$/;"	f	function:hljs
@@ -11039,9 +11044,9 @@ password	schemeinterp/forms.py	/^    password = PasswordField("Password", valida
 password	schemeinterp/models.py	/^    password = db.Column(db.String(256))$/;"	v	class:User
 post_id	schemeinterp/models.py	/^    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))$/;"	v	class:Reply
 post_id	schemeinterp/models.py	/^    post_id = db.Column(db.Integer, db.ForeignKey("post.id"))$/;"	v	class:Tag
-postauth	schemeinterp/__init__.py	/^def postauth():$/;"	f
+postauth	schemeinterp/views.py	/^def postauth():$/;"	f
 posts	schemeinterp/models.py	/^    posts = db.relationship($/;"	v	class:User
-postsubmit	schemeinterp/__init__.py	/^def postsubmit():$/;"	f
+postsubmit	schemeinterp/views.py	/^def postsubmit():$/;"	f
 pre	schemeinterp/static/css/style.css	/^pre {$/;"	s
 pre code.hljs	schemeinterp/static/js/highlight/styles/a11y-dark.min.css	/^pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}\/*!$/;"	c
 pre code.hljs	schemeinterp/static/js/highlight/styles/a11y-light.min.css	/^pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}\/*!$/;"	c
@@ -11327,9 +11332,9 @@ result	schemeinterp/static/js/highlight/highlight.js	/^        element.result = 
 resumingScanAtSamePosition	schemeinterp/static/js/highlight/highlight.js	/^        resumingScanAtSamePosition() {$/;"	m	class:hljs.compileLanguage.ResumableMultiRegex
 resumingScanAtSamePosition	schemeinterp/static/js/highlight/highlight.min.js	/^t.compile(),this.multiRegexes[e]=t,t}resumingScanAtSamePosition(){$/;"	m	class:G.i
 rollup	schemeinterp/static/js/highlight/package.json	/^      "rollup": "^2.47.0",$/;"	s	object:devDependencies
-root	schemeinterp/__init__.py	/^def root():$/;"	f
 root	schemeinterp/static/js/highlight/highlight.js	/^      get root() { return this.rootNode; }$/;"	G	class:hljs.TokenTree
 root	schemeinterp/static/js/highlight/highlight.min.js	/^return this.stack[this.stack.length-1]}get root(){return this.rootNode}add(e){$/;"	G	class:hljs.l
+root	schemeinterp/views.py	/^def root():$/;"	f
 rootNode	schemeinterp/static/js/highlight/highlight.js	/^        this.rootNode = { children: [] };$/;"	c	class:hljs.TokenTree.constructor
 rootNode	schemeinterp/static/js/highlight/highlight.min.js	/^this.buffer+=`<span class="${e}">`}}class l{constructor(){this.rootNode={$/;"	c	class:hljs.l.constructor
 s	schemeinterp/static/js/highlight/highlight.min.js	/^}function s(e,...t){const n=Object.create(null);for(const t in e)n[t]=e[t]$/;"	f	function:hljs
@@ -11360,14 +11365,13 @@ skipIfHasPrecedingDot	schemeinterp/static/js/highlight/highlight.js	/^    functi
 source	schemeinterp/static/js/highlight/highlight.js	/^    function source(re) {$/;"	f	function:hljs
 span	schemeinterp/static/js/highlight/highlight.js	/^      span(className) {$/;"	m	class:hljs.HTMLRenderer
 span	schemeinterp/static/js/highlight/highlight.min.js	/^o(e)&&(this.buffer+="<\/span>")}value(){return this.buffer}span(e){$/;"	m	class:hljs.a
-start	schemeinterp/views.py	/^def start():$/;"	f
 startNewMode	schemeinterp/static/js/highlight/highlight.js	/^        function startNewMode(mode, match) {$/;"	f	function:hljs.HLJS._highlight
 starts	schemeinterp/static/js/highlight/highlight.js	/^      mode.starts = {$/;"	c	class:mode
 starts	schemeinterp/static/js/highlight/highlight.min.js	/^e.begin=d(n.beforeMatch,d("(?=",n.begin,")")),e.starts={relevance:0,$/;"	c	class:e
 startsWith	schemeinterp/static/js/highlight/highlight.js	/^    function startsWith(re, lexeme) {$/;"	f	function:hljs
 stripOptionsFromArgs	schemeinterp/static/js/highlight/highlight.js	/^    function stripOptionsFromArgs(args) {$/;"	f	function:hljs
-submit	schemeinterp/__init__.py	/^def submit():$/;"	f
 submit	schemeinterp/forms.py	/^    submit = SubmitField("Sign In")$/;"	v	class:LoginForm
+submit	schemeinterp/views.py	/^def submit():$/;"	f
 t	schemeinterp/static/js/highlight/highlight.min.js	/^;for(const e of Object.keys(Y)){const t=e.replace("grmr_","")$/;"	C
 t	schemeinterp/static/js/highlight/highlight.min.js	/^function t(t,n){return RegExp(g(t),"m"+(e.case_insensitive?"i":"")+(n?"g":""))}$/;"	f	function:G
 t	schemeinterp/static/js/highlight/highlight.min.js	/^this.top.children.push(e)}openNode(e){const t={kind:e,children:[]}$/;"	c	class:hljs.l.openNode
@@ -11409,7 +11413,7 @@ tuxxi	userdata/PROT/subs.json	/^{"tuxxi": {"author": "Tux", "file": "tuxxi"}}/;"
 type	schemeinterp/static/js/highlight/package.json	/^      "type": "git",$/;"	s	object:repository
 typescript	schemeinterp/static/js/highlight/package.json	/^      "typescript": "^4.0.5"$/;"	s	object:devDependencies
 u	schemeinterp/static/js/highlight/highlight.min.js	/^return e.map((e=>g(e))).join("")}function u(...e){return"("+((e=>{$/;"	f	function:hljs
-ul	schemeinterp/__init__.py	/^import userlib as ul$/;"	I	nameref:module:userlib
+ul	schemeinterp/views.py	/^import userlib as ul$/;"	I	nameref:module:userlib
 unregisterLanguage	schemeinterp/static/js/highlight/highlight.js	/^      function unregisterLanguage(languageName) {$/;"	f	function:hljs.HLJS
 updateClassName	schemeinterp/static/js/highlight/highlight.js	/^      function updateClassName(element, currentLang, resultLang) {$/;"	f	function:hljs.HLJS
 upgradePluginAPI	schemeinterp/static/js/highlight/highlight.js	/^      function upgradePluginAPI(plugin) {$/;"	f	function:hljs.HLJS

@@ -30,7 +30,7 @@ For example::
 """
 
 
-def gendispatch(parent, parentlocals, *, no_gen_getters=False):
+def gendispatch(parent, parentlocals, *, no_gen_getters=False, no_privates=False):
     """
     Generate the dispatch function.
     This is for use in a class-function (something inspired by chapter 2 of SICP)
@@ -43,7 +43,7 @@ def gendispatch(parent, parentlocals, *, no_gen_getters=False):
     The parent function and its locals have to be passed because of technical constraints.
 
     Due to how inheritance is implemented, you must not name a local (procedure or not)
-    "_exposed" or "_getargs".
+    "_exposed", "_custgetters" or "_getargs".
 
     Unless otherwise specified (by passing no_gen_getters as True)
     Getters are automatically generated: they are named "_<var>". If such a function
@@ -62,7 +62,7 @@ def gendispatch(parent, parentlocals, *, no_gen_getters=False):
         for name, obj in parentlocals.items():
             if (
                 callable(obj)
-                and name[0] != "_"
+                and (name[0] != "_" or no_privates)
                 not in parent.__code__.co_varnames[: parent.__code__.co_argcount]
                 # not an argument
             ):
@@ -75,8 +75,11 @@ def gendispatch(parent, parentlocals, *, no_gen_getters=False):
                 if (
                     f"_{name}" not in parentlocals.values()
                 ):  # getter not already defined
+                    parentlocals[f"_{name}"]  = eval(f"lambda: {name}")  # including generated getters
                     s += f"elif n.upper()=='_{name.upper()}':\n" f" r=lambda:{name}\n"
                     parentlocals[f"_{name}"] = lambda: parentlocals[name]
+                else:
+                    parentlocals[f"_{name}"]  = eval(f"_{name}")  # including custom getters
 
         s += "if n == '_exposed': r = parentlocals\n"
 
@@ -102,6 +105,10 @@ def fcmerge(result, base, extend, extargs):
     Beware the order of arguments though; it's base1, then base2. Overlapping
     definitions from base2 will be in the base1's place. Use kwargs to be sure.
 
+    Custom getters are carried down; automatically generated ones will be
+    regenerated (but are of course functionally identical; the code is also
+    identical. The object will be different, if that somehow matters...)
+
     "base" should be the base fc /called with initial args/.
     "extend" should be the extending fc /uncalled/.
     "extargs" should have arguments for "extend"
@@ -116,7 +123,7 @@ def fcmerge(result, base, extend, extargs):
     exec(
         f"""
 def r({', '.join(sorted(exposed.keys()))}):
- return gendispatch(result, locals())
+ return gendispatch(result, locals(), no_gen_getters=True, no_privates=True)
         """,
         {**globals(), **locals(), "r": None},
         slocals := {**locals(), "r": None},  # not sure if this is needed, but...
