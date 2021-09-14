@@ -24,7 +24,7 @@ def forum():
 def root():
     subs_json_file = open(
         os.path.join("userdata", "PROT", "subs.json"), "r"
-    )  # {"subid": {"author":, "file":, "pwhash":}}
+    )  # {"subid": {"author":, "file":}}
     ret = render_template("index.html.jinja", submissions=json.load(subs_json_file))
     subs_json_file.close()
     return ret
@@ -120,6 +120,8 @@ def postauth():
         os.path.join("userdata", "PROT", "passwd"),
         os.path.join("userdata", "PROT", "shadow"),
     )
+
+    # If the auth failed:
     if not uf("check")(request.args.get("subid"), request.form["passwd"]):
         return """
 <link rel="stylesheet" href="static/css/style.css">

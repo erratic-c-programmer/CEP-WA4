@@ -11386,7 +11386,7 @@ table	schemeinterp/static/css/style.css	/^table {$/;"	s
 table	schemeinterp/static/css/style.css	/^table, th, td {$/;"	s
 tags	schemeinterp/forms.py	/^    tags = StringField("Tag (delimit each tag by comma)")$/;"	v	class:TaskForm
 tags	schemeinterp/models.py	/^    tags = db.relationship("Tag", backref="posts", lazy=True)$/;"	v	class:Post
-tags	schemeinterp/models.py	/^    tags = db.relationship("Tag", backref="user", lazy="joined")  # ONE TO MANY relship$/;"	v	class:User
+tags	schemeinterp/models.py	/^    tags = db.relationship($/;"	v	class:User
 td	schemeinterp/static/css/style.css	/^table, th, td {$/;"	s
 td	schemeinterp/static/css/style.css	/^td {$/;"	s
 tdate	schemeinterp/models.py	/^    tdate = db.Column(db.DateTime)$/;"	v	class:Post
@@ -11415,7 +11415,7 @@ updateClassName	schemeinterp/static/js/highlight/highlight.js	/^      function u
 upgradePluginAPI	schemeinterp/static/js/highlight/highlight.js	/^      function upgradePluginAPI(plugin) {$/;"	f	function:hljs.HLJS
 url	schemeinterp/static/js/highlight/package.json	/^      "url": "git:\/\/github.com\/highlightjs\/highlight.js.git"$/;"	s	object:repository
 url	schemeinterp/static/js/highlight/package.json	/^      "url": "https:\/\/github.com\/highlightjs\/highlight.js\/issues"$/;"	s	object:bugs
-user_id	schemeinterp/models.py	/^    user_id = db.Column($/;"	v	class:Tag
+user_id	schemeinterp/models.py	/^    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # links to user$/;"	v	class:Tag
 user_id	schemeinterp/models.py	/^    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))$/;"	v	class:Post
 user_id	schemeinterp/models.py	/^    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))$/;"	v	class:Reply
 username	schemeinterp/forms.py	/^    username = StringField("Username", validators=[DataRequired()])$/;"	v	class:LoginForm
