@@ -21,6 +21,7 @@ print(Pair(1, 2)("_b")())
 
 ##########
 
+# inheritance is broken now :(
 
 def Coord_ext(_base, c, hoho):
     def gen_unique_id():

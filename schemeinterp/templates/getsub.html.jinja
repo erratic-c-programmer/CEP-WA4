@@ -50,6 +50,11 @@
     </script>
 
     <center><h1 style="font-family: monospace;">{{subid}}.scm</h1></center>
+    {% if checksum != curchecksum %}
+    <center>
+      <p>warning: your code is corrupted! This may be our fault... sorry...</p>
+    </center>
+    {% endif %}
     <form name="f">
       <div id="getsubgrid">
 

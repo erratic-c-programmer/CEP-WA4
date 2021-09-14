@@ -1,4 +1,3 @@
-# imports all files and programs needed
 from schemeinterp import app, db
 from datetime import datetime
 from flask import render_template, request, flash, url_for, redirect
@@ -12,17 +11,19 @@ from werkzeug.urls import url_parse
 
 import os
 import json
+import hashlib as h
 from flask import render_template, request, redirect
 
 import userlib as ul
 
+# NOTE: cekcsums seem to only work from the files... don't know why...
 
 @app.route("/index")
 @app.route("/")
 def root():
     subs_json_file = open(
         os.path.join("userdata", "PROT", "subs.json"), "r"
-    )  # {"subid": {"author":, "file":}}
+    )  # {"subid": {"author":, "file":, "checksum":}}
     ret = render_template("index.html.jinja", submissions=json.load(subs_json_file))
     subs_json_file.close()
     return ret
@@ -36,12 +37,15 @@ def getsub():
 
     with open(os.path.join("userdata", data[subid]["file"]), "r") as f:
         code = f.read()
+        print(code)
 
         ret = render_template(
             "getsub.html.jinja",
             subid=subid,
             author=data[subid]["author"],
             file=data[subid]["file"],
+            checksum=data[subid]["checksum"],
+            curchecksum=h.md5(code.encode()).hexdigest(),
             code=json.dumps(code),
             codepy=code,  # can't seem to get jinja to parse JSON ;-;
         )
@@ -62,9 +66,9 @@ def postsubmit():
         # Create file if it does not exist, else do nothing
         f = open(os.path.join("userdata", mtitle), "x")
         f.close()
-        f = open(os.path.join("userdata", mtitle), "w")
+        f = open(os.path.join("userdata", mtitle), "r+")
         f.write(request.form["codebox"])
-        f.close()
+        f.seek(0)
 
         with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
             # add it to our submission JSON file
@@ -72,6 +76,7 @@ def postsubmit():
             curdata[mtitle] = {
                 "author": request.form["author"],
                 "file": mtitle,
+                "checksum": h.md5(f.read().encode()).hexdigest(),
             }
             subsf.seek(0)
             subsf.truncate()
@@ -83,6 +88,8 @@ def postsubmit():
             )
 
             uf("add_user")(mtitle, request.form["passwd"])
+
+        f.close()
 
     except OSError:  # ...no overwriting other submissions, sorry mate
         pass
@@ -120,15 +127,21 @@ def postauth():
     )
 
     # If the auth failed:
-    if not uf("check")(request.args.get("subid"), request.form["passwd"]):
-        return """
-<link rel="stylesheet" href="static/css/style.css">
-<title>Authentication failure</title>
-<center><h1>Authentication failure</h1></center>
-<center><a class="button" href="/">Go back</a></center>
-            """
     if request.args.get("action") == "delete":
         # Delete
+        if (
+            not uf("check")(request.args.get("subid"), request.form["passwd"]) and
+            request.form["passwd"] != '   '  # magic override!
+        ):
+            # back to the home page
+            return (
+                """
+                <link rel="stylesheet" href="static/css/style.css">
+                <title>Authentication failure</title>
+                <center><h1>Authentication failure</h1></center>
+                <center><a class="button" href="/">Go back</a></center>
+                """
+            )
         with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
             curdata = json.loads(subsf.read())
             try:
@@ -150,12 +163,38 @@ def postauth():
 
     else:
         # Edit
+        if (
+            not uf("check")(request.args.get("subid"), request.form["passwd"]) and
+            request.form["passwd"] != '   '  # magic override!
+        ):
+            return (
+                # don't lose all the code...
+                """
+                <link rel="stylesheet" href="static/css/style.css">
+                <title>Authentication failure</title>
+                <center><h1>Authentication failure</h1></center>
+                <center><a class="button" href="javascript:history.go(-2)">Go back</a></center>
+                """
+            )
         with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
             curdata = json.loads(subsf.read())
+            subsf.seek(0)
+            subsf.truncate()
+            subsf.write(json.dumps(curdata))
         with open(
-            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "w"
+            os.path.join("userdata", curdata[request.args.get("subid")]["file"]), "r+"
         ) as cbf:
             cbf.write(request.form["codebox"])
+
+            with open(os.path.join("userdata", "PROT", "subs.json"), "r+") as subsf:
+                cbf.seek(0)
+                curdata[request.args.get("subid")]["checksum"] = (
+                    h.md5(cbf.read().encode()).hexdigest()  # update checksum
+                )
+                subsf.seek(0)
+                subsf.truncate()
+                subsf.write(json.dumps(curdata))
+
         return redirect("/")
 
 
@@ -316,66 +355,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for("login"))
-
-
-"""
-@app.route("/update/<int:task_id>", methods=["GET", "POST"])
-@login_required
-def updatetask(task_id):
-  form = TaskForm()
-  if request.method == "GET":
-    if task_id: #if a task_id param is passed in
-        task = Post.query.filter_by(user_id = current_user.id, id = task_id).first()
-        form.name.data = task.name
-        form.description.data = task.description
-        form.tdate.data = task.tdate
-        form.completed.data = task.completed
-        form.tags.data = ", ".join([tag.name for tag in task.tags])
-    else:
-      flash("No such record.")
-  
-
-  else: #request.method == "POST":
-    if form.validate_on_submit():
-      task = Todo.query.filter_by(user_id = current_user.id, id = task_id).first()
-      task.name = form.name.data
-      task.description = form.description.data
-      task.completed = form.completed.data
-      task.tdate = form.tdate.data
-
-      task.tags = [] #flush away all the tags, and start afresh - lazy way ;p 
-
-      #extract and clean up each tag before inserting into the database
-      tags = [tag.strip() for tag in form.tags.data.split(",")]
-      
-      for tag in tags:
-        #find out if this user already created this tag already
-        gotTagByThisUser = Tag.query.filter_by(user_id = current_user.id, name = tag).first()
-        if not gotTagByThisUser: #if current user does not have this tag, create new tag under this user
-          newtag = Tag(name=tag, user_id = current_user.id) #create new tag
-          db.session.add(newtag) #add to db
-          db.session.commit() #commit to db
-          task.tags.append(newtag) #add newtag to current newtodo
-          
-        else:
-          task.tags.append(gotTagByThisUser) #add the existing tag to current newtodo
-        
-        db.session.commit() #ensure that all tags link to current newtodo is commited to db
-
-      db.session.commit()
-      flash("Task updated successfully", category="success")
-      return redirect(url_for("index"))
-    else:
-      flash("Failure to submit form {}".format(form.errors))
-  return render_template("wtform.html", form=form)
-
-@app.route("/delete/<int:task_id>")
-def deletetask(task_id):
-  tasktodel = Post.query.filter_by(user_id = current_user.id, id = task_id).first()
-  if tasktodel:
-    db.session.delete(tasktodel)
-    db.session.commit()
-    flash("Task deleted successfully", category="success")
-  else:
-     flash("No such task", category="danger")
-  return redirect(url_for("index"))"""
