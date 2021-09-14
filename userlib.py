@@ -3,6 +3,7 @@
 import os
 import hashlib
 import random, string
+from altclass import gendispatch
 
 
 def get_salt():
@@ -28,16 +29,9 @@ def hash_uname(plain):
 ######
 
 
-class userfile:  # why is this a class... gonna have to rewrite this someday
-    def __init__(self, passwdfilename, shadowfilename):
-        self.pwfname = passwdfilename
-        self.sfname = shadowfilename
-
-    def __enter__(self):
-        return self
-
-    def add_user(self, username, passwd):
-        with open(self.pwfname, "a") as pwfile, open(self.sfname, "a") as sfile:
+def UserFile(pwfname, sfname):
+    def add_user(username, passwd):
+        with open(pwfname, "a") as pwfile, open(sfname, "a") as sfile:
             salt = get_salt()
             # Write the username and
             # Fixed-length usernames of 128 characters
@@ -46,14 +40,14 @@ class userfile:  # why is this a class... gonna have to rewrite this someday
             sfile.write(hash_passwd(passwd, salt))  # write hash
             return
 
-    def del_user(self, username):
+    def del_user(username):
         # Sanity
         if len(username) == 0:
             return
 
         # Init values
         storedas = 1
-        with open(self.pwfname, "r+") as pwfile, open(self.sfname, "r+") as sfile:
+        with open(pwfname, "r+") as pwfile, open(sfname, "r+") as sfile:
             # If it's the first
             cur_read = pwfile.read(128 + 128)
             cur_uname = cur_read[:128]
@@ -78,14 +72,14 @@ class userfile:  # why is this a class... gonna have to rewrite this someday
             sfile.seek(0)
             sfile.write(x[: (storedas - 1) * 128] + x[storedas * 128 :])
 
-    def check(self, username, passwd):
+    def check(username, passwd):
         # Sanity
         if len(username) * len(passwd) == 0:
             return False
 
         # Init values
         storedas = 1
-        with open(self.pwfname, "r") as pwfile, open(self.sfname, "r") as sfile:
+        with open(pwfname, "r") as pwfile, open(sfname, "r") as sfile:
             # If it's the first
             cur_read = pwfile.read(128 + 128)
             cur_uname = cur_read[:128]
@@ -111,3 +105,5 @@ class userfile:  # why is this a class... gonna have to rewrite this someday
                 truehash = sfile.read(128)
 
             return hashed == truehash
+
+    return gendispatch(UserFile, locals())

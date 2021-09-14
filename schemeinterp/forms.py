@@ -7,7 +7,7 @@ from wtforms.validators import InputRequired, ValidationError, DataRequired
 from datetime import datetime
 import string
 
-
+# class to create new tasks
 class TaskForm(FlaskForm):
     name = StringField("Title", validators=[InputRequired()])
     description = TextAreaField("Content")
@@ -17,9 +17,7 @@ class TaskForm(FlaskForm):
     def validate_name(form, field):
         validated = True  # default state of validation
         if len(field.data) < 3:
-            form.name.errors.append(
-                "Length of title must be more than 3 characters!"
-            )
+            form.name.errors.append("Length of title must be more than 3 characters!")
             validated = False
 
         if len([ch for ch in field.data if ch in string.punctuation]) > 0:
@@ -28,6 +26,7 @@ class TaskForm(FlaskForm):
         return validated
 
 
+# class to create reply
 class ReplyForm(FlaskForm):
     reply_content = StringField("Reply Name", validators=[InputRequired()])
 
@@ -42,6 +41,7 @@ class ReplyForm(FlaskForm):
         return validated
 
 
+# class for user to login
 class LoginForm(FlaskForm):
     username = StringField("Username", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
@@ -49,6 +49,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField("Sign In")
 
 
+# class to create account
 class CreateAccount(FlaskForm):
     username = StringField("Username", validators=[InputRequired()])
     password = PasswordField("Password", validators=[DataRequired()])

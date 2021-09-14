@@ -1,3 +1,4 @@
+# imports all files and programs needed
 from schemeinterp import app, db
 from datetime import datetime
 from flask import render_template, request, flash, url_for, redirect
@@ -8,40 +9,47 @@ from schemeinterp.models import User, Post, Tag, Reply
 from flask_login import login_required, login_user, logout_user, current_user
 from werkzeug.urls import url_parse
 
-
+# starting page
 @app.route("/")
 def start():
     return render_template("index.html")
 
 
+# page to show replies and posts
 @app.route("/postpage/<int:post_id>", methods=["GET"])
 @login_required
 def viewpost(post_id):
     post = Post.query.filter_by(id=post_id).first()
     user = User.query.filter_by(id=post.user_id).first().username
     user_replies = []
+    # gets the post requested by current user and also gets the replies and user creater of the post
     for i in range(len(post.replies)):
         user_replies.append(
             User.query.filter_by(id=post.replies[i].user_id).first().username
         )
+    # creates a reply list
     return render_template(
         "postpage.html", post=post, username=user, user_replies=user_replies
     )
 
 
+# page to show all the posts of the forum
 @app.route("/mainpage")
 @login_required
 def index():
     posts = Post.query.order_by(Post.tdate).all()
+    # gets all of the posts from database
     users = []
     for i in range(len(posts)):
         users.append(User.query.filter_by(id=posts[i].user_id).first().username)
     return render_template("mainpage.html", tasks=posts, users=users)
 
 
+# page for form to create account
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     account = CreateAccount()
+    # creates account and inserts it in the database
     if request.method == "POST":
         if account.validate_on_submit():
             newuser = User(
@@ -61,13 +69,14 @@ def signup():
     return render_template("signup.html", account=account)
 
 
+# page for form to create post
 @app.route("/wtform", methods=["GET", "POST"])
 @login_required
 def wtform():
     form = TaskForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            # create and update DB on newtodo
+            # create and update DB on newpost
             newpost = Post(
                 name=form.name.data,
                 description=form.description.data,
@@ -106,13 +115,14 @@ def wtform():
     return render_template("wtform.html", form=form)
 
 
+# page to go to form which create new reply
 @app.route("/replyform/<int:postid>", methods=["GET", "POST"])
 @login_required
 def replyform(postid):
     reply = ReplyForm()
     if request.method == "POST":
         if reply.validate_on_submit():
-            # create and update DB on newtodo
+            # creates and updates reply db
             newreply = Reply(
                 reply_content=reply.reply_content.data,
                 user_id=current_user.id,
@@ -127,6 +137,7 @@ def replyform(postid):
     return render_template("replyform.html", reply=reply)
 
 
+# page to login to a page
 @app.route("/login", methods=["POST", "GET"])
 def login():
     form = LoginForm()

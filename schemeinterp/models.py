@@ -5,7 +5,7 @@ from schemeinterp import login
 
 from flask_login import UserMixin
 
-
+# database for users
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True)
@@ -14,9 +14,12 @@ class User(db.Model, UserMixin):
     date_created = db.Column(db.DateTime, default=datetime.now())
     posts = db.relationship(
         "Post", backref="user", lazy="joined"
-    )  # ONE TO MANY relship
+    )  # ONE TO MANY relship for post
     replies = db.relationship("Reply", backref="user", lazy="joined")
-    tags = db.relationship("Tag", backref="user", lazy="joined")  # ONE TO MANY relship
+    # one to many relationship for replies
+    tags = db.relationship(
+        "Tag", backref="user", lazy="joined"
+    )  # ONE TO MANY relship for tags
 
     def __repr__(self):
         return "<User {}>".format(self.username)
@@ -33,32 +36,39 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+# database for posts
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
     description = db.Column(db.String(256))
     tdate = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    # links to user
     tags = db.relationship("Tag", backref="posts", lazy=True)
+    # one to many relationship for tags
     replies = db.relationship("Reply", backref="reply", lazy=True)
+    # one to many relationship for tags
 
 
+# database for replies
 class Reply(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     reply_content = db.Column(db.String(500))
     post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
+    # links to post
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    # links to user
 
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256))
-    user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id")
-    )  # Which user did this tag belong to?
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))  # links to user
     post_id = db.Column(db.Integer, db.ForeignKey("post.id"))
+    # links to post
 
 
+# dummy data of the stuff
 def insert_dummy_data(db):
     db.drop_all()
     db.create_all()
@@ -71,7 +81,7 @@ def insert_dummy_data(db):
     db.session.add(guest)
     db.session.commit()
 
-    # Adding Todo1, and linking it to its' user owner directly
+    # Adding post1, and linking it to its' user owner directly
     post1 = Post(
         name="How to do this",
         description="scheme stuff",
@@ -81,27 +91,27 @@ def insert_dummy_data(db):
 
     db.session.add(post1)
 
-    # Adding Todo2, without specifying which owner
+    # Adding post2, without specifying which owner
     post2 = Post(
         name="I love scheme",
         description="scheme loves me",
         tdate=datetime.now() + timedelta(days=14),
     )
 
-    # specifying todo2's owner through the User.tasks list append method.
+    # specifying post2's owner through the User.tasks list append method.
     admin.posts.append(post2)
 
-    # Adding Todo3 and not specifying who it belongs to
+    # Adding post3 and not specifying who it belongs to
     post3 = Post(
         name="ddd", description="sss", tdate=datetime.now() + timedelta(days=7)
     )
 
-    # Adding Todo4 and not specifying who it belongs to
+    # Adding post4 and not specifying who it belongs to
     post4 = Post(
         name="sdfad", description="adgwbg", tdate=datetime.now() + timedelta(days=7)
     )
 
-    # Link todo3 and todo4 to admin user using the User.tasks list extend method.
+    # Link post3 and post4 to admin user using the User.tasks list extend method.
     admin.posts.extend([post3, post4])
 
     db.session.commit()
@@ -118,11 +128,11 @@ def insert_dummy_data(db):
     db.session.add(ccatag)
     db.session.commit()
 
-    # Tagging todo1 using append method
+    # Tagging post1 using append method
     post1.tags.append(cletag)  # add tags one by one
     post1.tags.append(worktag)  # add tags one by one
 
-    # Adding multiple tags to todo2, todo3 and todo4 using extend method
+    # Adding multiple tags to post2, post3 and todpost3o4 using extend method
     post2.tags.extend([worktag, ceptag])  # add tags as a list
     post3.tags.extend([worktag, ceptag])  # add tags as a list
     post3.tags.append(ccatag)

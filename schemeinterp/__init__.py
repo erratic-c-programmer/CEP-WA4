@@ -13,10 +13,10 @@ app = Flask(__name__)
 app.secret_key = os.urandom(12)
 Bootstrap(app)
 
+
 @app.route("/forum")
 def forum():
     return render_template("forumindex.html")
-
 
 
 @app.route("/index")
@@ -79,12 +79,12 @@ def postsubmit():
             subsf.truncate()
             subsf.write(json.dumps(curdata))
 
-            uf = ul.userfile(
+            uf = ul.UserFile(
                 os.path.join("userdata", "PROT", "passwd"),
                 os.path.join("userdata", "PROT", "shadow"),
             )
 
-            uf.add_user(mtitle, request.form["passwd"])
+            uf("add_user")(mtitle, request.form["passwd"])
 
     except OSError:  # ...no overwriting other submissions, sorry mate
         pass
@@ -116,11 +116,11 @@ def auth():
 
 @app.route("/postauth", methods=["GET", "POST"])
 def postauth():
-    uf = ul.userfile(
+    uf = ul.UserFile(
         os.path.join("userdata", "PROT", "passwd"),
         os.path.join("userdata", "PROT", "shadow"),
     )
-    if not uf.check(request.args.get("subid"), request.form["passwd"]):
+    if not uf("check")(request.args.get("subid"), request.form["passwd"]):
         return """
 <link rel="stylesheet" href="static/css/style.css">
 <title>Authentication failure</title>
@@ -139,7 +139,7 @@ def postauth():
                 #  for some reason the file did not exist... or maybe permissions messed up?
                 pass
 
-            uf.del_user(request.args.get("subid"))
+            uf("del_user")(request.args.get("subid"))
             del curdata[request.args.get("subid")]  # remove that entry...
 
             subsf.seek(0)
